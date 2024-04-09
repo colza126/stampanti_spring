@@ -92,6 +92,28 @@ public class DbManager {
         return risultati;
     }
 
+    public boolean registerUser(String codice, String pass, String nome, String cognome, String email, String permessi) {
+        String insert = "INSERT INTO user (codice, password, nome, cognome, email, ruolo) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+                PreparedStatement stmt = conn.prepareStatement(insert)) {
+            // Imposta i parametri della query
+            stmt.setString(1, codice);
+            stmt.setString(2, convertToMD5(pass));
+            stmt.setString(3, nome);
+            stmt.setString(4, cognome);
+            stmt.setString(5, email);
+            stmt.setString(6, permessi);
+
+            // Esegui la query
+            int result = stmt.executeUpdate();
+            return result == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // In caso di eccezione, restituisci false
+            return false;
+        }
+    }
+
     public boolean controllaPermessi(String codice) {
         String select = "SELECT * FROM utente WHERE codice = ?";
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);

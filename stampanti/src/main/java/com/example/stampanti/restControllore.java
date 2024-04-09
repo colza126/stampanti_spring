@@ -47,6 +47,16 @@ public class restControllore{
         s = null;
         return true;
     }
+
+    @GetMapping("/register")
+    public boolean register(@RequestParam(value = "codice", required = true) String codice,
+    @RequestParam(value = "pass", required = true) String pass,
+    @RequestParam(value = "nome", required = true) String nome,
+    @RequestParam(value = "cognome", required = true) String cognome,
+    @RequestParam(value = "email", required = true) String email,
+    @RequestParam(value = "permessi", required = true) String permessi){
+        return db.registerUser(codice, pass, nome, cognome, email, permessi);
+    }
     
     @GetMapping("/getPermessi")
     public boolean getPermessi(){
