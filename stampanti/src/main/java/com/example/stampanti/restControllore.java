@@ -44,7 +44,7 @@ public class restControllore{
     }
 
     @GetMapping("/getCoda")
-    public List<stampa> getCoda(){
+    public List<stampa> coda(){
         return db.getCoda();
     }
 

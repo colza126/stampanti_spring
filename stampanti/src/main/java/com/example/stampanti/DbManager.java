@@ -71,26 +71,28 @@ public class DbManager {
 
     public List<stampa> getCoda() {
         List<stampa> risultati = new ArrayList<>();
-        String query = "SELECT * FROM stampa JOIN log_stampante ON log_stampante.ID_stampa = stampa.ID WHERE stato = 'coda'";
+        String query = "SELECT * FROM stampa JOIN log_stampante ON log_stampante.ID_stampa = stampa.ID WHERE log_stampante.stato = ?";
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
-                PreparedStatement stmt = conn.prepareStatement(query)) {
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            // Imposta il valore del parametro della query con il valore dell'enum
+            stmt.setString(1, "in coda"); // Supponendo che 'coda' sia l'istanza dell'enum
+            
             // Esegui la query
-
             try (ResultSet rs = stmt.executeQuery()) {
                 // Controlla se ci sono risultati
                 while (rs.next()) {
-                    // Se ci sono risultati, restituisci true
-                    risultati.add(new stampa(rs.getString("fronte"), rs.getString("retro"), rs.getString("ID"),
-                            rs.getBoolean("colorata")));
+                    // Aggiungi il risultato alla lista
+                    risultati.add(new stampa(rs.getString("fronte"), rs.getString("retro"), rs.getInt("ID"), rs.getBoolean("colorata")));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // In caso di eccezione, restituisci false
+            // In caso di eccezione, restituisci null
             return null;
         }
         return risultati;
     }
+    
 
     public String sistemaPath(String origin) {
         String[] val = origin.split("\\\\");

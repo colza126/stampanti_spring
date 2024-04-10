@@ -29,9 +29,13 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            numero_elementi+=1;
-            var elemento_coda = '<div><img src="../imgs/'+ response.fronte+'"><img src="../imgs/'+ response.retro+'"><br></div>';
-            caricaHome();
+            for (let index = 0; index < response.length; index++) {
+                console.log("daje");
+                console.log(index);
+                numero_elementi+=1;
+                var elemento_coda = '<div id = "'+response.id+'"><img src="'+ response.fronte+'"><img src="'+ response.retro+'"><br><p>Colorata? '+ response.colorato+'</p></div>';
+                $("#elenco-container").append(elemento_coda);     
+            }
         },
         error: function (xhr, status, error) {
             alert('Errore durante caricamento stampanti');
