@@ -3,6 +3,7 @@ package com.example.stampanti;
 public class MySession {
     
     public int idUtente;
+    
     public boolean permessiAdmin;
 
     public MySession(int idUtente, boolean permessiAdmin) {

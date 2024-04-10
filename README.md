@@ -1,3 +1,4 @@
 TODO:
 
-	Lato server: implementare metodi usati in homepage.js
+	testare il funzionamento dei metodi
+ 	implementare i privilegi admin

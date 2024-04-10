@@ -15,13 +15,12 @@
     <div class="container mt-5">
         <h1 class="mb-4">Login and Registration Page</h1>
         <button id="showLoginForm" class="btn btn-primary">Login</button>
-        <button id="showaRegistrationForm" class="btn btn-secondary">Register</button>
-        <button id="showRecoveryForm" class="btn btn-info">Password dimenticata</button>
+        <!-- <button id="showRecoveryForm" class="btn btn-info">Password dimenticata</button> -->
 
         <form id="loginForm" method="POST" style="display: none;">
             <div class="mb-3">
-                <label for="loginMail" class="form-label">E-mail:</label>
-                <input type="text" id="loginMail" name="mail" class="form-control" required>
+                <label for="loginCodice" class="form-label">E-mail:</label>
+                <input type="text" id="loginCodice" name="mail" class="form-control" required>
             </div>
 
             <div class="mb-3">
@@ -32,7 +31,7 @@
             <button type="submit" class="btn btn-primary">Login</button>
             <p id="loginErrorMessage" class="mt-2"></p>
         </form>
-
+<!-- 
         <form id="recoveryPw" method="POST" style="display: none;">
             <div class="mb-3">
                 <label for="recoveryMail" class="form-label">E-mail:</label>
@@ -41,22 +40,9 @@
 
             <button type="submit" class="btn btn-primary">Password dimenticata</button>
             <p id="recoveryErrorMessage" class="mt-2"></p>
-        </form>
+        </form> -->
 
-        <form id="registrationForm" method="POST" style="display: none;">
-            <div class="mb-3">
-                <label for="registrationMail" class="form-label">E-mail:</label>
-                <input type="text" id="registrationMail" name="mail" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="registrationPassword" class="form-label">Password:</label>
-                <input type="password" id="registrationPassword" name="password" class="form-control" required>
-            </div>
-
-            <button type="submit" class="btn btn-success">Register</button>
-            <p id="registrationErrorMessage" class="mt-2"></p>
-        </form>
+        
     </div>
 
     <script src="script/index.js"></script>

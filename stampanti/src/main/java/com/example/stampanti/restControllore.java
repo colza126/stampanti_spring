@@ -29,6 +29,7 @@ public class restControllore{
 
         return false;
     }
+    
     @GetMapping("/sess_exist")
     public boolean logIn(HttpServletResponse response) throws NoSuchAlgorithmException{
         if(s != null) {
@@ -56,7 +57,7 @@ public class restControllore{
     public boolean inserisci_coda(@RequestParam(value = "fronte", required = true) String fronte,
     @RequestParam(value = "retro", required = true) String retro,
     @RequestParam(value = "colorato", required = true) boolean color){
-        return db.inserisci_coda(fronte, retro,color);
+        return db.inserisci_coda(fronte, retro,color,s.idUtente);
     }
 
     @GetMapping("/logout")

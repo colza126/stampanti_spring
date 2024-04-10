@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 
 public class DbManager {
     final String JDBC_URL = "jdbc:mysql://localhost:3306/gestione_stampe";
@@ -68,20 +69,19 @@ public class DbManager {
         return null;
     }
 
-
-    public List<stampa> getCoda(){
+    public List<stampa> getCoda() {
         List<stampa> risultati = new ArrayList<>();
         String query = "SELECT * FROM stampa JOIN log_stampante ON log_stampante.ID_stampa = stampa.ID WHERE stato = 'coda'";
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
                 PreparedStatement stmt = conn.prepareStatement(query)) {
             // Esegui la query
 
-
             try (ResultSet rs = stmt.executeQuery()) {
                 // Controlla se ci sono risultati
                 while (rs.next()) {
                     // Se ci sono risultati, restituisci true
-                    risultati.add(new stampa(rs.getString("fronte"), rs.getString("retro"), rs.getString("ID"), rs.getBoolean("colorata")));
+                    risultati.add(new stampa(rs.getString("fronte"), rs.getString("retro"), rs.getString("ID"),
+                            rs.getBoolean("colorata")));
                 }
             }
         } catch (SQLException e) {
@@ -91,31 +91,47 @@ public class DbManager {
         }
         return risultati;
     }
-    
-    public String sistemaPath(String origin){
+
+    public String sistemaPath(String origin) {
         String[] val = origin.split("\\\\");
 
-        return "img/" + val[val.length -1];
+        return "img/" + val[val.length - 1];
     }
 
+    public boolean inserisci_coda(String fronte, String retro, boolean color, int id_user) {
+        String insertStampa = "INSERT INTO stampa (fronte, retro, colorata) VALUES (?, ?, ?)";
+        String insertLogStampante = "INSERT INTO log_stampante (ID_user, data_ora, ID_stampa, stato) VALUES (?, ?, ?, ?)";
 
-    public boolean inserisci_coda(String fronte, String retro, boolean color) {
-        String insert = "INSERT INTO stampa (fronte, retro, colorata) VALUES (?, ?, ?)";
-
-        
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
-                PreparedStatement stmt = conn.prepareStatement(insert)) {
-            // Imposta i parametri della query
-            stmt.setString(1, sistemaPath(fronte));
-            stmt.setString(2, sistemaPath(retro));
-            stmt.setBoolean(3, color);
+                PreparedStatement stmtStampa = conn.prepareStatement(insertStampa);
+                PreparedStatement stmtLogStampante = conn.prepareStatement(insertLogStampante)) {
+            // Inserisci nella tabella 'stampa'
+            stmtStampa.setString(1, sistemaPath(fronte));
+            stmtStampa.setString(2, sistemaPath(retro));
+            stmtStampa.setBoolean(3, color);
+            stmtStampa.executeUpdate();
 
-            // Esegui la query
-            int result = stmt.executeUpdate();
+            // Ottieni l'ID della stampa appena inserita
+            int id_stampa = 0;
+            String query = "SELECT MAX(ID) AS max_id FROM stampa";
+            try (PreparedStatement stmt = conn.prepareStatement(query);
+                    ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    id_stampa = rs.getInt("max_id");
+                }   
+            }
+
+            // Inserisci nella tabella 'log_stampante'
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            stmtLogStampante.setInt(1, id_user);
+            stmtLogStampante.setTimestamp(2, Timestamp.valueOf(currentDateTime));
+            stmtLogStampante.setInt(3, id_stampa);
+            stmtLogStampante.setString(4, "in coda");
+            int result = stmtLogStampante.executeUpdate();
+
             return result == 1;
         } catch (SQLException e) {
             e.printStackTrace();
-            // In caso di eccezione, restituisci false
             return false;
         }
     }
@@ -144,7 +160,8 @@ public class DbManager {
         return risultati;
     }
 
-    public boolean registerUser(String codice, String pass, String nome, String cognome, String email, String permessi) {
+    public boolean registerUser(String codice, String pass, String nome, String cognome, String email,
+            String permessi) {
         String insert = "INSERT INTO user (codice, password, nome, cognome, email, ruolo) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
                 PreparedStatement stmt = conn.prepareStatement(insert)) {
