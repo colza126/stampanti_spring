@@ -91,14 +91,23 @@ public class DbManager {
         }
         return risultati;
     }
+    
+    public String sistemaPath(String origin){
+        String[] val = origin.split("\\\\");
+
+        return "img/" + val[val.length -1];
+    }
+
 
     public boolean inserisci_coda(String fronte, String retro, boolean color) {
         String insert = "INSERT INTO stampa (fronte, retro, colorata) VALUES (?, ?, ?)";
+
+        
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
                 PreparedStatement stmt = conn.prepareStatement(insert)) {
             // Imposta i parametri della query
-            stmt.setString(1, fronte);
-            stmt.setString(2, retro);
+            stmt.setString(1, sistemaPath(fronte));
+            stmt.setString(2, sistemaPath(retro));
             stmt.setBoolean(3, color);
 
             // Esegui la query
@@ -182,8 +191,6 @@ public class DbManager {
         // Se non ci sono risultati o in caso di eccezione, restituisci false
         return false;
     }
-
-    
 
     public boolean userExists(String codice) {
         String query = "SELECT * FROM user WHERE codice = ?";

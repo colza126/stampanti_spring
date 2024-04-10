@@ -55,7 +55,7 @@ public class restControllore{
     @GetMapping("/inserisci_coda")
     public boolean inserisci_coda(@RequestParam(value = "fronte", required = true) String fronte,
     @RequestParam(value = "retro", required = true) String retro,
-    @RequestParam(value = "color", required = true) boolean color){
+    @RequestParam(value = "colorato", required = true) boolean color){
         return db.inserisci_coda(fronte, retro,color);
     }
 
