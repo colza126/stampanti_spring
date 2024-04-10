@@ -68,6 +68,49 @@ public class DbManager {
         return null;
     }
 
+
+    public List<stampa> getCoda(){
+        List<stampa> risultati = new ArrayList<>();
+        String query = "SELECT * FROM stampa JOIN log_stampante ON log_stampante.ID_stampa = stampa.ID WHERE stato = 'coda'";
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            // Esegui la query
+
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                // Controlla se ci sono risultati
+                while (rs.next()) {
+                    // Se ci sono risultati, restituisci true
+                    risultati.add(new stampa(rs.getString("fronte"), rs.getString("retro"), rs.getString("ID"), rs.getBoolean("colorata")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // In caso di eccezione, restituisci false
+            return null;
+        }
+        return risultati;
+    }
+
+    public boolean inserisci_coda(String fronte, String retro, boolean color) {
+        String insert = "INSERT INTO stampa (fronte, retro, colorata) VALUES (?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+                PreparedStatement stmt = conn.prepareStatement(insert)) {
+            // Imposta i parametri della query
+            stmt.setString(1, fronte);
+            stmt.setString(2, retro);
+            stmt.setBoolean(3, color);
+
+            // Esegui la query
+            int result = stmt.executeUpdate();
+            return result == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // In caso di eccezione, restituisci false
+            return false;
+        }
+    }
+
     public List<String> getGeneri() {
         List<String> risultati = new ArrayList<>();
 
@@ -161,6 +204,21 @@ public class DbManager {
         return false;
     }
 
+    public boolean stampa(String id) {
+        String update = "UPDATE stampa JOIN log_stampante ON log_stampante.ID_stampa = stampa.ID SET stato = 'stampato' WHERE ID = ?";
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+                PreparedStatement stmt = conn.prepareStatement(update)) {
+            // Imposta i parametri della query
+            stmt.setString(1, id);
 
+            // Esegui la query
+            int result = stmt.executeUpdate();
+            return result == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // In caso di eccezione, restituisci false
+            return false;
+        }
+    }
 
 }

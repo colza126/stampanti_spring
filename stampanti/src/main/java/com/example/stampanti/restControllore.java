@@ -1,6 +1,8 @@
 package com.example.stampanti;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +40,23 @@ public class restControllore{
     @GetMapping("/checkPrivilegi")
     public boolean checkPrivilegi(){
         return s.permessiAdmin;
+    }
+
+    @GetMapping("/getCoda")
+    public List<stampa> getCoda(){
+        return db.getCoda();
+    }
+
+    @GetMapping("/stampa")
+    public boolean stampa(@RequestParam(value = "id", required = true) String id){
+        return db.stampa(id);
+    }
+
+    @GetMapping("/inserisci_coda")
+    public boolean inserisci_coda(@RequestParam(value = "fronte", required = true) String fronte,
+    @RequestParam(value = "retro", required = true) String retro,
+    @RequestParam(value = "color", required = true) boolean color){
+        return db.inserisci_coda(fronte, retro,color);
     }
 
     @GetMapping("/logout")
