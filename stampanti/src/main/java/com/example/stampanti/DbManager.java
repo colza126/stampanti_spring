@@ -97,7 +97,7 @@ public class DbManager {
     public String sistemaPath(String origin) {
         String[] val = origin.split("\\\\");
 
-        return "img/" + val[val.length - 1];
+        return "imgs\\" + val[val.length - 1];
     }
 
     public boolean inserisci_coda(String fronte, String retro, boolean color, int id_user) {
@@ -230,12 +230,12 @@ public class DbManager {
         return false;
     }
 
-    public boolean stampa(String id) {
-        String update = "UPDATE stampa JOIN log_stampante ON log_stampante.ID_stampa = stampa.ID SET stato = 'stampato' WHERE ID = ?";
+    public boolean stampa(int id) {
+        String update = "UPDATE stampa JOIN log_stampante ON log_stampante.ID_stampa = stampa.ID SET stato = 'stampata' WHERE ID_user = ?";
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
                 PreparedStatement stmt = conn.prepareStatement(update)) {
             // Imposta i parametri della query
-            stmt.setString(1, id);
+            stmt.setInt(1, id);
 
             // Esegui la query
             int result = stmt.executeUpdate();

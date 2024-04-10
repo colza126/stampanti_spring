@@ -1,5 +1,24 @@
 function caricaHome() {
-    
+    $("#elenco-container").empty();
+
+    $.ajax({
+        url: '../getCoda',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            for (let index = 0; index < response.length; index++) {
+                console.log("daje");
+                console.log(index);
+                var elemento_coda = '<div id="' + response[index].id + '"><img src="../' + response[index].fronte + '"><img src="../' + response[index].retro + '"><br><p>Colorata? ' + response[index].colorata + '</p></div>';
+                $("#elenco-container").append(elemento_coda);
+            }
+        },
+        error: function (xhr, status, error) {
+            alert('Errore durante il caricamento degli elementi');
+            console.log(xhr.responseText);
+        }
+    });
 
 }
 $(document).ready(function () {
@@ -24,24 +43,8 @@ $(document).ready(function () {
         }
     });
 
-    $.ajax({
-        url: '../getCoda',
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-            for (let index = 0; index < response.length; index++) {
-                console.log("daje");
-                console.log(index);
-                numero_elementi+=1;
-                var elemento_coda = '<div id = "'+response.id+'"><img src="'+ response.fronte+'"><img src="'+ response.retro+'"><br><p>Colorata? '+ response.colorato+'</p></div>';
-                $("#elenco-container").append(elemento_coda);     
-            }
-        },
-        error: function (xhr, status, error) {
-            alert('Errore durante caricamento stampanti');
-            console.log(xhr.responseText);
-        }
-    });
+    
+    
 
 
     $('#btn-coda').on('click', function () {
@@ -70,6 +73,7 @@ $(document).ready(function () {
                 colorato : colore,
             },
             success: function (response) {
+                caricaHome();
                 // Handle success response here
             },
             error: function (xhr, status, error) {
@@ -87,7 +91,7 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                // Handle success response here
+                
             },
             error: function (xhr, status, error) {
                 alert('Errore durante caricamento stampanti');

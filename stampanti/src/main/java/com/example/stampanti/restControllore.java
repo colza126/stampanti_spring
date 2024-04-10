@@ -49,8 +49,8 @@ public class restControllore{
     }
 
     @GetMapping("/stampa")
-    public boolean stampa(@RequestParam(value = "id", required = true) String id){
-        return db.stampa(id);
+    public boolean stampa(){
+        return db.stampa(s.idUtente);
     }
 
     @GetMapping("/inserisci_coda")
