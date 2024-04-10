@@ -23,6 +23,7 @@ public class restControllore{
     @RequestParam(value = "pass", required = true) String pass,HttpServletResponse response) throws NoSuchAlgorithmException{
         if(db.loginUser(codice, pass) != null) {
             s = sessionManager.session_start(response,db.loginUser(codice, pass));
+            s = db.loginUser(codice, pass);
             codiceUsr = codice;
             return true;
         }
@@ -40,7 +41,10 @@ public class restControllore{
 
     @GetMapping("/checkPrivilegi")
     public boolean checkPrivilegi(){
-        return s.permessiAdmin;
+        if(s != null) {
+            return s.permessiAdmin;
+        }
+        return false;
     }
 
     @GetMapping("/getCoda")
@@ -69,13 +73,12 @@ public class restControllore{
     }
 
     @GetMapping("/register")
-    public boolean register(@RequestParam(value = "codice", required = true) String codice,
-    @RequestParam(value = "pass", required = true) String pass,
-    @RequestParam(value = "nome", required = true) String nome,
+    public boolean register(@RequestParam(value = "nome", required = true) String nome,
     @RequestParam(value = "cognome", required = true) String cognome,
-    @RequestParam(value = "email", required = true) String email,
-    @RequestParam(value = "permessi", required = true) String permessi){
-        return db.registerUser(codice, pass, nome, cognome, email, permessi);
+    @RequestParam(value = "codice", required = true) String codice,
+    @RequestParam(value = "pw", required = true) String pass,
+    @RequestParam(value = "ruolo", required = true) String ruolo){
+        return db.registerUser(codice, pass, nome, cognome, ruolo);
     }
     
     @GetMapping("/getPermessi")

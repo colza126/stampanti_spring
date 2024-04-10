@@ -5,46 +5,49 @@ $(document).ready(function() {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            if (response)
-                window.location.href = "../index.html";
+            if (response){
+                console.log(response);
+            }
         },
         error: function (xhr, status, error) {
+            window.location.href = '../index.html';
             alert('Errore durante controllo sessione');
             console.log(xhr.responseText);
         }
     });
 
-    $('#insertButton').click(function() {
-        var name = $('#name').val();
-        var description = $('#description').val();
-        var price = $('#price').val();
-        var quantity = $('#quantity').val();
-        var category = $('#category').val();
-        var image = $('#image').val();
+    $("#invia").on('click', function () {
+        var nome = $("#inputNome").val();
+        var cognome = $("#inputCognome").val();
+        var codice = $("#inputCodice").val();
+        var pw = $("#inputPw").val();
+        var ruolo = $("#ruolo").val();
 
-        if (name == "" || description == "" || price == "" || quantity == "" || category == "" || image == "") {
-            alert("Please fill all the fields");
-        } else {
-            $.ajax({
-                url: 'register',
-                type: 'GET',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    name: name,
-                    description: description,
-                    price: price,
-                    quantity: quantity,
-                    category: category,
-                    image: image
-                }),
-                success: function(response) {
-                    alert("utente aggiunto")
-                    window.location.href = "http://localhost:8080/products";
-                },
-                error: function(response) {
-                    alert("Error adding product");
+        $.ajax({
+            url: '../register',
+            type: 'GET',
+            data: {
+                nome: nome,
+                cognome: cognome,
+                codice: codice,
+                pw: pw,
+                ruolo: ruolo
+            },
+            success: function (response) {
+                if (response){
+                    alert('Utente inserito con successo');
+                    
+                } else {
+                    alert('Errore durante inserimento utente');
                 }
-            });
-        }
+            },
+            error: function (xhr, status, error) {
+                alert('Errore durante inserimento utente');
+                console.log(xhr.responseText);
+            }
+        });
     });
+
+
+
 });

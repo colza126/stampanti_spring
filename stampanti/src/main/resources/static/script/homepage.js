@@ -22,6 +22,8 @@ function caricaHome() {
 
 }
 $(document).ready(function () {
+
+    $("#btn-passa-inserisci").hide();
     var numero_elementi = 0;
     caricaHome();
     $.ajax({
@@ -43,7 +45,24 @@ $(document).ready(function () {
         }
     });
 
-    
+    $.ajax({
+        url: '../checkPrivilegi',
+        method: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            if (response) {
+                $("#btn-passa-inserisci").show();
+            } else {
+                $("#btn-passa-inserisci").hide();
+            }
+        },
+    });
+
+    $("#btn-passa-inserisci").on('click', function () {
+
+        window.location.href = "inserisci_user.html";
+
+    });
     
 
 

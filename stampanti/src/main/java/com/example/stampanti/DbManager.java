@@ -50,7 +50,7 @@ public class DbManager {
                 if (rs.next()) {
                     // Se ci sono risultati, restituisci true
                     boolean permessi_admin;
-                    if (rs.getString("ruolo") == "admin") {
+                    if (rs.getString("ruolo").equals("admin")) {
                         permessi_admin = true;
                     } else {
                         permessi_admin = false;
@@ -162,9 +162,8 @@ public class DbManager {
         return risultati;
     }
 
-    public boolean registerUser(String codice, String pass, String nome, String cognome, String email,
-            String permessi) {
-        String insert = "INSERT INTO user (codice, password, nome, cognome, email, ruolo) VALUES (?, ?, ?, ?, ?, ?)";
+    public boolean registerUser(String codice, String pass, String nome, String cognome,String permessi) {
+        String insert = "INSERT INTO user (codice, password, nome, cognome, ruolo) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
                 PreparedStatement stmt = conn.prepareStatement(insert)) {
             // Imposta i parametri della query
@@ -172,8 +171,7 @@ public class DbManager {
             stmt.setString(2, convertToMD5(pass));
             stmt.setString(3, nome);
             stmt.setString(4, cognome);
-            stmt.setString(5, email);
-            stmt.setString(6, permessi);
+            stmt.setString(5, permessi);
 
             // Esegui la query
             int result = stmt.executeUpdate();
