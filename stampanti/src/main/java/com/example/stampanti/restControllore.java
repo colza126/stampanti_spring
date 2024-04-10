@@ -39,6 +39,11 @@ public class restControllore{
         return false;
     }
 
+    @GetMapping("/getStats")
+    public List<stampa> statistiche(){
+        return db.getStats();
+    } 
+
     @GetMapping("/checkPrivilegi")
     public boolean checkPrivilegi(){
         if(s != null) {

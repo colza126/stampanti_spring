@@ -52,6 +52,27 @@ $(document).ready(function () {
         success: function (response) {
             if (response) {
                 $("#btn-passa-inserisci").show();
+
+                $.ajax({
+                    url: '../getStats',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        console.log(response);
+                        for (let index = 0; index < response.length; index++) {
+                            console.log("daje");
+                            console.log(index);
+                            var elemento_coda = '<div id="' + response[index].id + '"><img src="../' + response[index].fronte + '"><img src="../' + response[index].retro + '"><br><p>Colorata? ' + response[index].colorata + '</p></div>';
+                            $("#elenco-container").append(elemento_coda);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Errore durante il caricamento degli elementi');
+                        console.log(xhr.responseText);
+                    }
+                });
+
+
             } else {
                 $("#btn-passa-inserisci").hide();
             }
