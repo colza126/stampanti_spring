@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 public class stampa extends JsonSerializer<stampa> {
-    String fronte;
-    String retro;
-    int id;
-    boolean colorata;
+    public String fronte;
+    public String retro;
+    public int id;
+    public boolean colorata;
 
     public stampa(String fronte, String retro, int id, boolean colorata) {
         this.fronte = fronte;

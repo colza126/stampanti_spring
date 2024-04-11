@@ -69,13 +69,14 @@ public class DbManager {
         return null;
     }
 
-    public List<stampa> getCoda() {
+    public List<stampa> getCoda(int id) {
         List<stampa> risultati = new ArrayList<>();
-        String query = "SELECT * FROM stampa JOIN log_stampante ON log_stampante.ID_stampa = stampa.ID WHERE log_stampante.stato = ?";
+        String query = "SELECT * FROM stampa JOIN log_stampante ON log_stampante.ID_stampa = stampa.ID WHERE log_stampante.stato = ? AND log_stampante.ID_user = ?";
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
             PreparedStatement stmt = conn.prepareStatement(query)) {
             // Imposta il valore del parametro della query con il valore dell'enum
             stmt.setString(1, "in coda"); // Supponendo che 'coda' sia l'istanza dell'enum
+            stmt.setInt(2, id); // Supponendo che 'coda' sia l'istanza dell'enum
             
             // Esegui la query
             try (ResultSet rs = stmt.executeQuery()) {
@@ -251,21 +252,71 @@ public class DbManager {
         return false;
     }
 
-    public boolean stampa(int id) {
-        String update = "UPDATE stampa JOIN log_stampante ON log_stampante.ID_stampa = stampa.ID SET stato = 'stampata' WHERE ID_user = ?";
+    public boolean checkFondi(int id , double costo){
+        String query = "SELECT fondi FROM user WHERE ID = ?";
+        int fondi = 0;
+
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
-                PreparedStatement stmt = conn.prepareStatement(update)) {
-            // Imposta i parametri della query
+                PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
 
-            // Esegui la query
-            int result = stmt.executeUpdate();
-            return result == 1;
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    fondi = rs.getInt("fondi");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            // In caso di eccezione, restituisci false
+        }
+
+        if (fondi >= costo) {
+            return true;
+        } else {
             return false;
         }
+
+    }
+
+    public double checkCosto(int id){
+        List<stampa> coda = getCoda(id);
+        double costo = 0;
+        double costoFoglio = 0.1;
+        double colorato = 2;
+        for (int i = 0; i < coda.size(); i++) {
+            if (coda.get(i).colorata == true) {
+                if(coda.get(i).retro != null){
+                    costo += colorato * 2;
+                } else {
+                costo += colorato;
+                }
+            } else {
+                costo += costoFoglio;
+            }
+        }
+        return costo;
+    }
+
+    public boolean stampa(int id) {
+        if(checkFondi(id, checkCosto(id))){
+            String update = "UPDATE stampa JOIN log_stampante ON log_stampante.ID_stampa = stampa.ID SET stato = 'stampata' WHERE ID_user = ?";
+            try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+                    PreparedStatement stmt = conn.prepareStatement(update)) {
+                // Imposta i parametri della query
+                stmt.setInt(1, id);
+    
+                // Esegui la query
+                int result = stmt.executeUpdate();
+                return result == 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // In caso di eccezione, restituisci false
+                return false;
+            }
+    
+        }
+        return false;
+
+        
     }
 
 }
