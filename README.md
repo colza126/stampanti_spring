@@ -1,4 +1,3 @@
 TODO:
 
-	testare il funzionamento dei metodi
- 	implementare i privilegi admin
+	da implementare le richieste utilizzate in contabile.js nel rest controller 

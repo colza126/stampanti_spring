@@ -187,7 +187,7 @@ public class DbManager {
     }
 
     public boolean registerUser(String codice, String pass, String nome, String cognome,String permessi) {
-        String insert = "INSERT INTO user (codice, password, nome, cognome, ruolo) VALUES (?, ?, ?, ?, ?)";
+        String insert = "INSERT INTO user (codice, password, nome, cognome, ruolo,fondi) VALUES (?, ?, ?, ?, ?,0)";
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
                 PreparedStatement stmt = conn.prepareStatement(insert)) {
             // Imposta i parametri della query
