@@ -46,8 +46,8 @@ public class restControllore{
 
     @GetMapping("/checkPrivilegi")
     public boolean checkPrivilegi(){
-        if(s != null) {
-            return s.permessiAdmin;
+        if(s != null && s.ruolo == "admin") {
+            return true;
         }
         return false;
     }
@@ -90,7 +90,21 @@ public class restControllore{
     public boolean getPermessi(){
         return db.controllaPermessi(codiceUsr);
     }
-    
+
+    @GetMapping("/getRuolo")
+    public String getRouolo(){
+        return s.ruolo;
+    }
+    @GetMapping("/accredita")
+    public boolean accredita(@RequestParam(value = "codice", required = true) String codice,
+    @RequestParam(value = "fondi", required = true) int fondi){
+        return db.updateFondi(codice,fondi);
+    }
+
+    @GetMapping("/cercaUtente")
+    public Utente cercaUtente(@RequestParam(value = "codice", required = true) String codice){
+        return db.cercaUtente(codice);
+    }
 
     @GetMapping("/controllaSessione")
     public boolean controllaSessione(){
@@ -99,5 +113,6 @@ public class restControllore{
         }
         return false;
     }
-    
+
+
 }

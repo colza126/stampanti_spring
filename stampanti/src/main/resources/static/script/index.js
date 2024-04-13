@@ -43,7 +43,9 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     if (response == true) {
-                        window.location.href = "pages/homepage.html";
+                        setTimeout(function(){
+                            window.location.href = "pages/homepage.html";
+                        }, 10000);
                     }
                 },
                 error: function (xhr, status, error) {

@@ -49,14 +49,8 @@ public class DbManager {
                 // Controlla se ci sono risultati
                 if (rs.next()) {
                     // Se ci sono risultati, restituisci true
-                    boolean permessi_admin;
-                    if (rs.getString("ruolo").equals("admin")) {
-                        permessi_admin = true;
-                    } else {
-                        permessi_admin = false;
-                    }
-
-                    return new MySession(rs.getInt("ID"), permessi_admin);
+                    
+                    return new MySession(rs.getInt("ID"), rs.getString("ruolo"));
 
                 }
             }
@@ -319,4 +313,41 @@ public class DbManager {
         
     }
 
+    public boolean updateFondi(String codice, int costo){
+        String update = "UPDATE user SET fondi = fondi + ? WHERE codice = ?";
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+                PreparedStatement stmt = conn.prepareStatement(update)) {
+            // Imposta i parametri della query
+            stmt.setDouble(1, costo);
+            stmt.setString(2, codice);
+
+            // Esegui la query
+            int result = stmt.executeUpdate();
+            return result == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // In caso di eccezione, restituisci false
+            return false;
+        }
+    }
+
+    public Utente cercaUtente(String codice){
+        String query = "SELECT * FROM user WHERE codice = ?";
+        Utente utente = null;
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, codice);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    utente = new Utente(rs.getString("nome"), rs.getString("cognome"), rs.getString("ID"), rs.getString("codice"), rs.getString("ruolo"), rs.getInt("fondi"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return utente;
+    }
 }

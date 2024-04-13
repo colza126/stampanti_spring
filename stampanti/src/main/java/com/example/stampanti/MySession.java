@@ -4,16 +4,16 @@ public class MySession {
     
     public int idUtente;
     
-    public boolean permessiAdmin;
+    public String ruolo;
 
-    public MySession(int idUtente, boolean permessiAdmin) {
+    public MySession(int idUtente, String ruolo) {
         this.idUtente = idUtente;
-        this.permessiAdmin = permessiAdmin;
+        this.ruolo = ruolo;
     }
 
     public MySession() {
         this.idUtente = 0;
-        this.permessiAdmin = false;
+        this.ruolo = "default";
     }
 
     

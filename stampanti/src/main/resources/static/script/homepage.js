@@ -1,3 +1,5 @@
+
+
 function caricaHome() {
     $("#elenco-container").empty();
 
@@ -140,6 +142,23 @@ $(document).ready(function () {
         });
     });
 
+    $.ajax({
+        url: '../getRuolo',
+        type: 'GET',
+        success: function(response) {
+            if (response == 'contabile') {
+                // Create the button for contabile role
+                var btnPaginaContabile = $('<button id="btn-pagina-contabile">Pagina Contabile</button>');
+                btnPaginaContabile.on('click', function () {
+                    window.location.href = "paginaContabile.html";
+                });
+                $("#button-container").append(btnPaginaContabile);
+            }
+        },
+        error: function() {
+            alert('Failed to get user role');
+        }
+    });
 
 
 });
