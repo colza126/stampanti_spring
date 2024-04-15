@@ -7,28 +7,84 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <style>
+        body {
+            background-color: #f8f9fa; /* Colore di sfondo */
+            color: #333; /* Colore del testo */
+            font-family: Arial, sans-serif; /* Tipo di font */
+            margin: 0; /* Rimuove il margine predefinito */
+            padding: 0; /* Rimuove il padding predefinito */
+        }
+
+        .container {
+            max-width: 800px; /* Larghezza massima del contenitore */
+            margin: 20px auto; /* Centra il contenitore nella pagina */
+            padding: 20px; /* Aggiunge spazio intorno al contenuto */
+            background-color: #fff; /* Colore di sfondo del contenitore */
+            border-radius: 8px; /* Bordo arrotondato */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombra */
+        }
+
+        input[type="file"],
+        input[type="checkbox"] {
+            margin-bottom: 10px; /* Aggiunge spazio tra gli input */
+        }
+
+        button {
+            padding: 10px 20px; /* Aggiunge spazio interno al pulsante */
+            background-color: #007bff; /* Colore di sfondo del pulsante */
+            color: #fff; /* Colore del testo del pulsante */
+            border: none; /* Rimuove il bordo del pulsante */
+            border-radius: 5px; /* Bordo arrotondato */
+            cursor: pointer; /* Cambia il cursore al passaggio sopra il pulsante */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Cambia il colore di sfondo del pulsante al passaggio del mouse */
+        }
+
+        #elenco-container {
+            margin-top: 20px; /* Aggiunge spazio sopra l'elenco */
+        }
+
+        #dati-utente {
+            margin-top: 20px; /* Aggiunge spazio sopra i dati utente */
+        }
+    </style>
 </head>
 <body>
-    <div id = "form-container">
-        Fronte: <input type="file" id = "fronte">
-        Retro: <input type="file" id = "retro">
-        Colorato? <input type="checkbox" name="col_id" id="col_id">
+    <div class="container">
+        <div id="form-container">
+            <h2>Inserisci nella coda</h2>
+            <div>
+                <label for="fronte">Fronte:</label>
+                <input type="file" id="fronte">
+            </div>
+            <div>
+                <label for="retro">Retro:</label>
+                <input type="file" id="retro">
+            </div>
+            <div>
+                <label for="col_id">Colorato?</label>
+                <input type="checkbox" name="col_id" id="col_id">
+            </div>
+            <button id="btn-coda">Inserisci nella coda</button>
+        </div>
 
-        <button id = "btn-coda">Inserisci nella coda</button>
-    </div>
+        <div id="coda-container"> 
+            <h2>Elementi nella coda</h2>
+            <div id="elenco-container"></div>  
+        </div>
 
-    <div id = "coda-container"> 
-        <div id = "elenco-container"></div>  
-    </div>
+        <div id="dati-utente">
+            <!-- Dati utente -->
+        </div>
 
-    <div id = "dati-utente">
-        
+        <button id="btn-stampa">Stampa</button>  
+        <button id="btn-passa-inserisci">Entra nella pagina di inserimento</button>
     </div>
-    <button id = "btn-stampa"> Stampa</button>  
-    <button id = "btn-passa-inserisci">entra nella pagina di inserimento</button>
-    <div id = "button-container"></div>
+    <div id="button-container"></div>
     <script src="../script/homepage.js"></script>
 </body>
 </html>

@@ -1,66 +1,55 @@
-function accredita(code, fondi){
-    
+function accredita(code, fondi) {
     $.ajax({
         url: '../accredita',
         type: 'GET',
-        data: {codice : code, fondi : fondi},
+        data: { codice: code, fondi: fondi },
         success: function(response) {
-            alert("accreditamento effettuato");
+            alert("Accreditamento effettuato");
         },
         error: function() {
-            alert("errore");
+            alert("Errore durante l'accreditamento");
         }
-        
     });
-
 }
 
-function visualizzaUser(respose) {
-    var card = "<p>"+respose.nome+"</p>";
-    card += "<p>"+respose.cognome+"</p>";
-    card += "<p>"+respose.codice+"</p>";
-    card += "<p>"+respose.ruolo+"</p>";
-    card += "<p>"+respose.fondi+"</p>";
-    card += "<input type = 'number' id = 'valore'>"
-    card += "<button id = 'accredita'>accredita fondi</button>";
-    $('#usr-dsplay').append(card);
+function visualizzaUser(response) {
+    var card = "<p>" + response.nome + "</p>";
+    card += "<p>" + response.cognome + "</p>";
+    card += "<p>" + response.codice + "</p>";
+    card += "<p>" + response.ruolo + "</p>";
+    card += "<p>" + response.fondi + "</p>";
+    card += "<input type='number' id='valore'>";
+    card += "<button class='accredita'>Accredita fondi</button>";
+    $('#usr-dsplay').html(card);
 
-
-    
-    $('#accredita').click(function() {
-        let cod = $('#inputCodice').val();
+    $('#usr-dsplay').on('click', '.accredita', function() {
         let fondi = $('#valore').val();
-        accredita(cod, fondi);
+        accredita(response.codice, fondi);
     });
 }
-
 
 function cercaUtente() {
     let cod = $('#inputCodice').val();
     $.ajax({
         url: '../cercaUtente',
         type: 'GET',
-        data: {codice : cod},
+        data: { codice: cod },
         success: function(response) {
             visualizzaUser(response);
-
         },
         error: function() {
-            
+            alert("Errore durante la ricerca dell'utente");
         }
-        
     });
 }
 
-
 $(document).ready(function() {
-
     $.ajax({
         url: '../getRuolo',
         type: 'GET',
         success: function(response) {
             if (response !== 'contabile') {
-                // Clear session and redirect to index.html
+                // Logout e reindirizzamento alla pagina di accesso
                 $.ajax({
                     url: '/logout',
                     type: 'POST',
@@ -68,20 +57,17 @@ $(document).ready(function() {
                         window.location.href = 'index.html';
                     },
                     error: function() {
-                        alert('Failed to clear session');
+                        alert('Errore durante il logout');
                     }
                 });
             }
         },
         error: function() {
-            alert('Failed to get user role');
+            alert('Errore durante il recupero del ruolo utente');
         }
     });
 
     $('#cerca').click(function() {
         cercaUtente();
     });
-
-    
-
 });

@@ -1,5 +1,4 @@
 
-
 function caricaHome() {
     $("#elenco-container").empty();
 
@@ -12,7 +11,7 @@ function caricaHome() {
             for (let index = 0; index < response.length; index++) {
                 console.log("daje");
                 console.log(index);
-                var elemento_coda = '<div id="' + response[index].id + '"><img src="../' + response[index].fronte + '"><img src="../' + response[index].retro + '"><br><p>Colorata? ' + response[index].colorata + '</p></div>';
+                var elemento_coda = '<div id="' + response[index].id + '"><img class="image" src="../' + response[index].fronte + '" width = "300" height = "400" ><img src="../' + response[index].retro + '" width = "300" height = "400"><br><p>Colorata? ' + response[index].colorata + '</p></div>';
                 $("#elenco-container").append(elemento_coda);
             }
         },
@@ -21,8 +20,9 @@ function caricaHome() {
             console.log(xhr.responseText);
         }
     });
-
 }
+
+
 $(document).ready(function () {
 
     $("#btn-passa-inserisci").hide();
@@ -64,7 +64,7 @@ $(document).ready(function () {
                         for (let index = 0; index < response.length; index++) {
                             console.log("daje");
                             console.log(index);
-                            var elemento_coda = '<div id="' + response[index].id + '"><img src="../' + response[index].fronte + '"><img src="../' + response[index].retro + '"><br><p>Colorata? ' + response[index].colorata + '</p></div>';
+                            var elemento_coda = '<div id="' + response[index].id + '"><img class="image" src="../' + response[index].fronte + '" width = "300" height = "400" ><img src="../' + response[index].retro + '" width = "300" height = "400"><br><p>Colorata? ' + response[index].colorata + '</p></div>';
                             $("#elenco-container").append(elemento_coda);
                         }
                     },
