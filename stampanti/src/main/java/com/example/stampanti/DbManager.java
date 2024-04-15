@@ -49,7 +49,6 @@ public class DbManager {
                 // Controlla se ci sono risultati
                 if (rs.next()) {
                     // Se ci sono risultati, restituisci true
-                    
                     return new MySession(rs.getInt("ID"), rs.getString("ruolo"));
 
                 }

@@ -46,7 +46,7 @@ public class restControllore{
 
     @GetMapping("/checkPrivilegi")
     public boolean checkPrivilegi(){
-        if(s != null && s.ruolo == "admin") {
+        if(s.ruolo.equals("admin") && s != null) {
             return true;
         }
         return false;
