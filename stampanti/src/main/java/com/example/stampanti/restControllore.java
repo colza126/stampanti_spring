@@ -15,7 +15,7 @@ public class restControllore{
     DbManager db = new DbManager();
     String codiceUsr;
     SessionManager sessionManager = new SessionManager();
-    MySession s;
+    static MySession s;
 
 
     @GetMapping("/login")
