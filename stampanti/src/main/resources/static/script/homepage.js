@@ -152,7 +152,7 @@ $(document).ready(function () {
                 // Create the button for contabile role
                 var btnPaginaContabile = $('<button id="btn-pagina-contabile">Pagina Contabile</button>');
                 btnPaginaContabile.on('click', function () {
-                    window.location.href = "paginaContabile.html";
+                    window.location.href = "/contabile";
                 });
                 $("#button-container").append(btnPaginaContabile);
             }

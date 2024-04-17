@@ -30,5 +30,12 @@ public class Controllore {
         }
     }
 
-    
+    @GetMapping("/contabile")
+    public String contabile(){
+        if(restControllore.s != null && restControllore.s.ruolo.equals("contabile")){
+            return "pages/paginaContabile";
+        }else{
+            return home();
+        }
+    }
 }
