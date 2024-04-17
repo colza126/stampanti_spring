@@ -38,7 +38,7 @@ $(document).ready(function () {
                 console.log(response);
                 
             }else{
-                window.location.href = "../index.html";
+                window.location.href = "/";
             }
             
         },
@@ -84,14 +84,9 @@ $(document).ready(function () {
 
     $("#btn-passa-inserisci").on('click', function () {
 
-        $.ajax({
-            url: "inserisci",
-            type: "GET",
-            dataType: "json",
-            success: function(response) {
-                
-            }
-        });
+        window.location.href = "/inserisci";
+        
+        
     });
     
 

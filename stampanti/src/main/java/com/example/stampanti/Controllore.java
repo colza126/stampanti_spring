@@ -23,10 +23,11 @@ public class Controllore {
 
     @GetMapping("/inserisci")
     public String pagina(){
-        System.out.println("save");
-        return "pages/inserisci_user";
-        
-        
+        if(restControllore.s != null && restControllore.s.ruolo.equals("admin")){
+            return "pages/inserisci_user";
+        }else{
+            return home();
+        }
     }
 
     

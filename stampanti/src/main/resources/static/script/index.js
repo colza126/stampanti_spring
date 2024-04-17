@@ -43,9 +43,7 @@ $(document).ready(function () {
                         url: 'home',
                         type: 'GET',
                         dataType: 'json',
-                        success: function (response) {
-                            
-                        }
+                        success: function (response) {}
                         
                     });
 
