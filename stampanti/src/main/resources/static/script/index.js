@@ -39,8 +39,15 @@ $(document).ready(function () {
             },
             success: function (response) {
                 if (response == true) {
-                    // Reindirizza alla homepage dopo 10 secondi
-                    window.location.href = "/home";
+                    $.ajax({
+                        url: 'home',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+                            
+                        }
+                        
+                    });
 
                 }
             },

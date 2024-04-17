@@ -10,9 +10,24 @@ public class Controllore {
         return "index";
     }
 
+
+    //controllo lato server che l'utente sia autenticato
     @GetMapping("/home")
     public String home() {
-        return "homepage";
+        if(restControllore.s != null){
+            return "pages/homepage";
+        }else{
+            return "index";
+        }
     }
+
+    @GetMapping("/inserisci")
+    public String pagina(){
+        System.out.println("save");
+        return "pages/inserisci_user";
+        
+        
+    }
+
     
 }

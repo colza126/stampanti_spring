@@ -1,4 +1,4 @@
-
+//ma fig
 function caricaHome() {
     $("#elenco-container").empty();
 
@@ -28,6 +28,7 @@ $(document).ready(function () {
     $("#btn-passa-inserisci").hide();
     var numero_elementi = 0;
     caricaHome();
+    //sessione esiste
     $.ajax({
         url: '../sess_exist',
         type: 'GET',
@@ -47,6 +48,7 @@ $(document).ready(function () {
         }
     });
 
+    //privilegi
     $.ajax({
         url: '../checkPrivilegi',
         method: 'GET',
@@ -62,8 +64,7 @@ $(document).ready(function () {
                     success: function (response) {
                         console.log(response);
                         for (let index = 0; index < response.length; index++) {
-                            console.log("daje");
-                            console.log(index);
+                            
                             var elemento_coda = '<div id="' + response[index].id + '"><img class="image" src="../' + response[index].fronte + '" width = "300" height = "400" ><img src="../' + response[index].retro + '" width = "300" height = "400"><br><p>Colorata? ' + response[index].colorata + '</p></div>';
                             $("#elenco-container").append(elemento_coda);
                         }
@@ -83,8 +84,14 @@ $(document).ready(function () {
 
     $("#btn-passa-inserisci").on('click', function () {
 
-        window.location.href = "inserisci_user.html";
-
+        $.ajax({
+            url: "inserisci",
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+                
+            }
+        });
     });
     
 
