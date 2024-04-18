@@ -12,7 +12,6 @@ $(document).ready(function () {
         "background-color": "#333",
         "border-color": "#333"
     });
-
     // Mostra o nasconde il modulo di login al clic
     $('#showLoginForm').click(function () {
         $('#loginForm').toggle();
@@ -39,14 +38,7 @@ $(document).ready(function () {
             },
             success: function (response) {
                 if (response == true) {
-                    $.ajax({
-                        url: 'home',
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (response) {}
-                        
-                    });
-
+                    window.location.href = "/home";
                 }
             },
             error: function (xhr, status, error) {
